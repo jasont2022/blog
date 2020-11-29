@@ -13,6 +13,7 @@ const userSchema = new Schema({
   email: {
     type: String, required: true, unique: true, validate: [isEmail, 'invalid email'],
   },
+  googleId: String,
   avatar: { data: Buffer, contentType: String },
   posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   postlikes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
