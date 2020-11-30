@@ -1,52 +1,38 @@
-const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth20').Strategy
-const keys = require('./keys')
+const LocalStrategy = require('passport-local').Strategy
+const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
-passport.serializeUser((user, done) => {
-  done(null, user.id)
-})
-
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
-    if (user) {
-      done(null, user)
-    } else {
-      done(err)
-    }
-  })
-})
-
-passport.use(
-  new GoogleStrategy({
-    clientID: keys.google.clientID,
-    clientSecret: keys.google.clientSecret,
-    callbackURL: '/account/google/redirect',
-  }, (accessToken, refreshToken, profile, done) => {
-    const createUser = async () => {
-      try {
-        const { displayName, id, _json } = profile
-        const newUser = await User.create({
-          username: displayName,
-          googleId: id,
-          avatar: _json.image.url,
-        })
-        console.log(`new user created: ${newUser}`)
-        done(null, newUser)
-      } catch (err) {
-        console.log(`an error has occured ${err}`)
-        done(err)
+const initialize = passport => {
+  const authenticateUser = (email, password, done) => {
+    User.findOne({ email }, async (err, user) => {
+      if (err) {
+        return done(err)
       }
-    }
-
-    User.findOne({ googleId: profile.id }, (err, currentUser) => {
-      if (currentUser) {
-        // already have user
-        console.log(`user is ${currentUser}`)
-        done(null, currentUser)
-      } else {
-        createUser()
+      if (!user) {
+        return done(null, false, { message: 'No user with that email' })
+      }
+      try {
+        if (await bcrypt.compare(password, user.password)) {
+          return done(null, user)
+        }
+        return done(null, false, { message: 'Password incorrect' })
+      } catch (e) {
+        return done(e)
       }
     })
-  }),
-)
+  }
+
+  passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser))
+  passport.serializeUser((user, done) => done(null, user.id))
+  passport.deserializeUser((id, done) => {
+    User.findById(id, (err, user) => {
+      if (user) {
+        done(null, user)
+      } else {
+        done(err)
+      }
+    })
+  })
+}
+
+module.exports = initialize

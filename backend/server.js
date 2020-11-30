@@ -4,12 +4,12 @@ const mongoose = require('mongoose')
 const cookieSession = require('cookie-session')
 const path = require('path')
 const passport = require('passport')
-const passportSetup = require('./config/passport-setup')
-const keys = require('./config/keys')
 
 const app = express()
 const AccountRouter = require('./routes/account')
 const ProfileRouter = require('./routes/profile')
+const initializePassport = require('./config/passport-setup')
+const checkAuthenticated = require('./middlewares/isAuthenticated')
 
 const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/blog'
 mongoose.connect(MONGO_URI, {
@@ -18,25 +18,28 @@ mongoose.connect(MONGO_URI, {
   useFindAndModify: false,
 })
 
+initializePassport(passport)
+
 app.use(express.static('dist'))
 app.use(express.json())
 app.use(
   cookieSession({
     name: 'local-session',
-    keys: [keys.session.cookieKey],
+    keys: ['jfdfdfrzqndfsdfpqqazf'],
     maxAge: 26 * 60 * 60 * 1000, // 24 hours
   }),
 )
 
 app.use(passport.initialize())
-app.use(passport.session)
+app.use(passport.session())
+
+app.get('/', checkAuthenticated, (req, res) => {
+  // res.json(req.user)
+  // res.render('some home component', { req.user })
+})
 
 app.use('/account', AccountRouter)
 app.use('/profile', ProfileRouter)
-
-app.get('/', (req, res) => {
-  res.render('home', { user: req.user })
-})
 
 app.use((err, _req, res, _next) => {
   console.log(err.stack)
