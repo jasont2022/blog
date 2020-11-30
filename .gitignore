@@ -28,3 +28,4 @@ dist
 *.log
 
 backend/config/keys.js
+backend/routes/index.js
