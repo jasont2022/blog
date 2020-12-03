@@ -6,20 +6,20 @@ const { Schema, model } = mongoose
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: {
-    type: String, required: true, minlength: 8, maxlength: 20,
+    type: String, required: true,
   },
-  firstname: { type: String, required: true, minlength: 3 },
-  lastname: { type: String, required: true, minlength: 3 },
+  firstname: { type: String, required: true },
+  lastname: { type: String, required: true },
   email: {
     type: String, required: true, unique: true, validate: [isEmail, 'invalid email'],
   },
-  googleId: String,
   avatar: { data: Buffer, contentType: String },
   posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
-  postlikes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
-  postdiskes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
-  commentlikes: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
-  commentdislikes: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  // postlikes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+  // postdiskes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+  // commentlikes: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  // commentdislikes: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   // if have time, add date field with moment
 })
 

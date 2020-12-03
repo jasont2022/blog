@@ -4,8 +4,20 @@ const router = express.Router()
 const User = require('../models/user')
 const { checkAuthenticated } = require('../middlewares/isAuthenticated')
 
-router.get('/', checkAuthenticated, (req, res) => {
-  res.render('profile', { user: req.user })
+router.get('/:username', (req, res, next) => {
+  const { username } = req.params
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      next(err)
+    } else {
+      const {
+        posts, _id, email, firstname, lastname,
+      } = user
+      res.send({
+        posts, id: _id, username, email, firstname, lastname,
+      })
+    }
+  })
 })
 
 router.post('/edit', checkAuthenticated, async (req, res, next) => {
