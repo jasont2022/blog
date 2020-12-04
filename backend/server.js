@@ -11,7 +11,6 @@ const ProfileRouter = require('./routes/profile')
 const PostRouter = require('./routes/posts')
 const CommentRouter = require('./routes/comments')
 const initializePassport = require('./config/passport-setup')
-// const checkAuthenticated = require('./middlewares/isAuthenticated')
 
 const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/blog'
 mongoose.connect(MONGO_URI, {
@@ -41,6 +40,9 @@ app.use('/posts', PostRouter)
 app.use('/comments', CommentRouter)
 
 app.get('/user', (req, res) => {
+  if (!req.user) {
+    res.send('user not logged in')
+  }
   const { username } = req.user
   res.json({ user: username })
 })
@@ -51,7 +53,7 @@ app.get('*', (_, res) => {
 
 app.use((err, _req, res, _next) => {
   console.log(err.stack)
-  res.status(500).send('Ops something went wrong')
+  res.status(500).send(`${err}`)
 })
 
 app.listen(3000, () => console.log('listening to 3000'))

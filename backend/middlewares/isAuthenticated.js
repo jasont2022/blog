@@ -2,15 +2,8 @@ const checkAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     next()
   } else {
-    res.redirect('/account/login')
+    next(res.send('User is not logged in'))
   }
 }
 
-const checkNotAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    res.redirect('/')
-  }
-  next()
-}
-
-module.exports = { checkAuthenticated, checkNotAuthenticated }
+module.exports = checkAuthenticated
