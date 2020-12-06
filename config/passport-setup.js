@@ -9,13 +9,13 @@ const initialize = passport => {
         return done(err)
       }
       if (!user) {
-        return done(null, false, { message: 'No user with that email' })
+        return done(null, false)
       }
       try {
         if (await bcrypt.compare(password, user.password)) {
           return done(null, user)
         }
-        return done(null, false, { message: 'Password incorrect' })
+        return done(null, false)
       } catch (e) {
         return done(e)
       }

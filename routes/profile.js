@@ -1,8 +1,9 @@
 const express = require('express')
+const bcrypt = require('bcrypt')
 
 const router = express.Router()
 const User = require('../models/user')
-const { checkAuthenticated } = require('../middlewares/isAuthenticated')
+const checkAuthenticated = require('../middlewares/isAuthenticated')
 
 router.get('/:username', (req, res, next) => {
   const { username } = req.params
@@ -11,10 +12,10 @@ router.get('/:username', (req, res, next) => {
       next(err)
     } else {
       const {
-        posts, _id, email, firstname, lastname,
+        _id, email, firstname, lastname, posts, comments,
       } = user
       res.send({
-        posts, id: _id, username, email, firstname, lastname,
+        id: _id, username, email, firstname, lastname, posts, comments,
       })
     }
   })
@@ -24,11 +25,12 @@ router.post('/edit', checkAuthenticated, async (req, res, next) => {
   const {
     password, email, firstname, lastname, avatar,
   } = req.body
-  const username = req.user
+  const { username } = req.user
 
   try {
+    const hashedPassword = await bcrypt.hash(password, 10)
     await User.findOneAndUpdate({ username }, {
-      password, email, firstname, lastname, avatar,
+      password: hashedPassword, email, firstname, lastname, avatar,
     })
     res.send('user was updated')
   } catch (err) {
