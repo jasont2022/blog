@@ -16,7 +16,7 @@ const Button = s.button`
   color: white;
   text-decoration: none;
   border-radius: 10px;
-  background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #E1306C, #FD1D1D);
+  background: linear-gradient(-70deg,#ff7170,#ffe57f);
 `
 
 const NavBar = ({
@@ -38,11 +38,12 @@ const NavBar = ({
       <Nav className="ml-auto">
         {user ? (
           <>
-            <Navbar.Text style={{ marginRight: '40px' }}>Hi {user}</Navbar.Text>
+            <Navbar.Text style={{ marginRight: '40px' }}>Home</Navbar.Text>
+            <Navbar.Text style={{ marginRight: '40px' }}>Profile {user}</Navbar.Text>
             <Button onClick={() => logout()}>Logout</Button>
           </>
         ) : (
-          <Button><Link href="/login"><a>Login</a></Link></Button>
+          <Link href="/login"><a><Button>Login</Button></a></Link>
         )}
       </Nav>
     </Navbar>

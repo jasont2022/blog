@@ -22,6 +22,7 @@ const Home = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
+        // might need more than username, get profile picture
         const { data: { username } } = await axios.get('/user')
         username ? setUser(username) : setUser('')
         console.log(username)
