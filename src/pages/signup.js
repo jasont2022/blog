@@ -130,7 +130,7 @@ const SignUp = () => {
           Sign Up
         </SubmitButton>
         <p style={{ textAlign: 'center' }}>
-          Already have an account? <Link href="/login"><a>Log in here!</a></Link>
+          Already have an account? <Link href="/login"><a>Log In</a></Link>
         </p>
       </Form>
     </FormWrapper>

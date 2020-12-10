@@ -3,7 +3,6 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import s from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -59,7 +58,6 @@ const Home = ({ posts }) => {
       )
         : null}
       <HomeWrapper>
-        Welcome to next.js!
         <ul>
           {posts.map(post => (<li key={post._id}>{post.title}</li>))}
         </ul>
