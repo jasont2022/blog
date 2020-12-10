@@ -33,17 +33,30 @@ const NavBar = ({
   }
 
   return (
-    <Navbar expand="lg" bg="light" variant="light">
-      <Navbar.Brand>Blog</Navbar.Brand>
+    <Navbar
+      expand="lg"
+      bg="light"
+      variant="light"
+      style={{ paddingTop: '15px', paddingBottom: '15px' }}
+    >
+      <Link href="/">
+        <a><Navbar.Brand>Blog</Navbar.Brand></a>
+      </Link>
       <Nav className="ml-auto">
         {user ? (
           <>
-            <Navbar.Text style={{ marginRight: '40px' }}>Home</Navbar.Text>
-            <Navbar.Text style={{ marginRight: '40px' }}>Profile {user}</Navbar.Text>
+            <Link href={`/${user}`}>
+              <a><Navbar.Text style={{ marginRight: '30px' }}>Profile</Navbar.Text></a>
+            </Link>
+            <Link href="/post/new">
+              <a><Navbar.Text style={{ marginRight: '30px' }}>New Post</Navbar.Text></a>
+            </Link>
             <Button onClick={() => logout()}>Logout</Button>
           </>
         ) : (
-          <Link href="/login"><a><Button>Login</Button></a></Link>
+          <Link href="/login">
+            <a><Button>Login</Button></a>
+          </Link>
         )}
       </Nav>
     </Navbar>

@@ -5,6 +5,15 @@ const router = express.Router()
 const User = require('../models/user')
 const checkAuthenticated = require('../middlewares/isAuthenticated')
 
+router.get('/', async (_req, res, next) => {
+  try {
+    const users = await User.find().select('-password')
+    res.send(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/:username', (req, res, next) => {
   const { username } = req.params
   User.findOne({ username }, (err, user) => {
@@ -12,10 +21,10 @@ router.get('/:username', (req, res, next) => {
       next(err)
     } else {
       const {
-        _id, email, firstname, lastname, posts, comments,
+        email, firstname, lastname, posts, comments,
       } = user
       res.send({
-        id: _id, username, email, firstname, lastname, posts, comments,
+        username, email, firstname, lastname, posts, comments,
       })
     }
   })
