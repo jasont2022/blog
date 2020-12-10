@@ -25,8 +25,11 @@ This project is created with the following:
 * JavaScript (ES6)
 * MongoDB
 * Express
-* React
+* Passport.js
+* Bcrypt
 * Node.js
+* React
+* Next.js
 * Axios
 * Bootstrap
 * React Bootstrap
