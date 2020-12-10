@@ -80,8 +80,8 @@ const Login = () => {
         <SubmitButton
           style={{ margin: '1rem 0' }}
           onClick={e => login(e)}
-          disabled={email === '' || password === ''}
-          disable={email === '' || password === ''}
+          disabled={!email || !password}
+          disable={!email || !password}
         >
           Login
         </SubmitButton>

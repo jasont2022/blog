@@ -44,7 +44,7 @@ router.get('/:title', async (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   const { id } = req.params
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.send('not valid post id')
+    res.send('not valid comment id')
   }
   Comment.findById({ _id: id }, (err, comment) => {
     if (err) {

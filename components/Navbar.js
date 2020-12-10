@@ -5,6 +5,7 @@
 import React from 'react'
 import axios from 'axios'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import s from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Navbar, Nav } from 'react-bootstrap'
@@ -22,11 +23,14 @@ const Button = s.button`
 const NavBar = ({
   user, setErrMsg, count, setCount,
 }) => {
+  const router = useRouter()
+
   const logout = async () => {
     try {
       const res = await axios.post('/account/logout')
       console.log(res)
       setCount(count + 1)
+      router.push('/')
     } catch (err) {
       setErrMsg(`${err}`)
     }

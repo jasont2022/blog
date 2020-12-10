@@ -47,7 +47,6 @@ const Profile = ({ user }) => {
         console.log(username)
       } catch (err) {
         console.log(err)
-        setActiveUser('')
         router.push('/')
       }
     }

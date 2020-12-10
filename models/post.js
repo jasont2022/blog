@@ -7,7 +7,7 @@ const postSchema = new Schema({
     type: Schema.Types.ObjectId, ref: 'User', required: true,
   },
   title: { type: String, required: true, unique: true },
-  text: { type: String, minlength: 8, required: true },
+  text: { type: String, required: true },
   category: { type: String, required: true },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   // postlikes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
