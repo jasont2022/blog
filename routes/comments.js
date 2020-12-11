@@ -7,15 +7,15 @@ const User = require('../models/user')
 const Post = require('../models/post')
 const checkAuthenticated = require('../middlewares/isAuthenticated')
 
-router.get('/', (_req, res, next) => {
-  Comment.find({}, (err, comments) => {
-    if (err) {
-      next(err)
-    } else {
-      res.send(comments)
-    }
-  })
-})
+// router.get('/', (_req, res, next) => {
+//   Comment.find({}, (err, comments) => {
+//     if (err) {
+//       next(err)
+//     } else {
+//       res.send(comments)
+//     }
+//   })
+// })
 
 /*
 router.get('/:username', async (req, res, next) => {

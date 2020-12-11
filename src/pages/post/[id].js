@@ -5,9 +5,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import s from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Alert } from 'react-bootstrap'
 import Navbar from '../../components/Navbar'
+import Post from '../../components/Post'
 
 export const getStaticPaths = async () => {
   const { data } = await axios.get('/posts', {
@@ -32,7 +34,16 @@ export const getStaticProps = async ({ params }) => {
   return { props: { post: data } }
 }
 
-const Post = ({ post }) => {
+const Wrapper = s.div`
+  width: 100%;
+  box-sizing: border-box;
+  margin: 20px auto 0px auto;
+  max-width: 700px;
+  padding-left: 15px;
+  padding-right: 15px;
+`
+
+const PostPage = ({ post }) => {
   const router = useRouter()
   const [activeUser, setActiveUser] = useState('') // logged in user
   const [errMsg, setErrMsg] = useState('')
@@ -69,9 +80,11 @@ const Post = ({ post }) => {
         </Alert>
       )
         : null}
-      Post: {post.title}
+      <Wrapper>
+        <Post post={post} activeUser={activeUser} setErrMsg={setErrMsg} />
+      </Wrapper>
     </>
   )
 }
 
-export default Post
+export default PostPage

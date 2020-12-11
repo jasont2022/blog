@@ -33,7 +33,8 @@ router.get('/:id', async (req, res, next) => {
     res.send('not valid post id')
   }
   try {
-    const post = await Post.findById({ _id: id }).populate('author', 'username')
+    const post = await Post.findById({ _id: id })
+      .populate('author', 'username').populate('comments')
     res.send(post)
   } catch (err) {
     next(err)

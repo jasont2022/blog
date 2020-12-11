@@ -29,7 +29,7 @@ const Wrapper = s.div`
 
 const Home = ({ posts }) => {
   const router = useRouter()
-  const [user, setUser] = useState('')
+  const [activeUser, setActiveUser] = useState('')
   const [errMsg, setErrMsg] = useState('')
   const [count, setCount] = useState(0) // to trigger the useEffect
 
@@ -38,10 +38,10 @@ const Home = ({ posts }) => {
       try {
         // might need more than username, get profile picture
         const { data: { username } } = await axios.get('/user')
-        username ? setUser(username) : setUser('')
+        username ? setActiveUser(username) : setActiveUser('')
         console.log(username)
       } catch (err) {
-        setUser('')
+        setActiveUser('')
         router.push('/')
       }
     }
@@ -51,7 +51,7 @@ const Home = ({ posts }) => {
   return (
     <>
       <Navbar
-        user={user}
+        user={activeUser}
         setErrMsg={setErrMsg}
         count={count}
         setCount={setCount}
