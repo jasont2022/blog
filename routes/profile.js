@@ -14,20 +14,15 @@ router.get('/', async (_req, res, next) => {
   }
 })
 
-router.get('/:username', (req, res, next) => {
+router.get('/:username', async (req, res, next) => {
   const { username } = req.params
-  User.findOne({ username }, (err, user) => {
-    if (err) {
-      next(err)
-    } else {
-      const {
-        email, firstname, lastname, posts, comments,
-      } = user
-      res.send({
-        username, email, firstname, lastname, posts, comments,
-      })
-    }
-  })
+  try {
+    const user = await User.findOne({ username })
+      .populate('posts').populate('comments').select('-password')
+    res.send(user)
+  } catch (err) {
+    next(err)
+  }
 })
 
 router.post('/edit', checkAuthenticated, async (req, res, next) => {

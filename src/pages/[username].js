@@ -5,9 +5,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import s from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Alert } from 'react-bootstrap'
 import Navbar from '../components/Navbar'
+import Profile from '../components/Profile'
 
 export const getStaticPaths = async () => {
   const { data } = await axios.get('/profile', {
@@ -32,7 +34,16 @@ export const getStaticProps = async ({ params }) => {
   return { props: { user: data } }
 }
 
-const Profile = ({ user }) => {
+const Wrapper = s.div`
+  width: 100%;
+  box-sizing: border-box;
+  margin: 20px auto 0px auto;
+  max-width: 800px;
+  padding-left: 15px;
+  padding-right: 15px;
+`
+
+const ProfilePage = ({ user }) => {
   const router = useRouter()
   const [activeUser, setActiveUser] = useState('') // logged in user
   const [errMsg, setErrMsg] = useState('')
@@ -69,9 +80,11 @@ const Profile = ({ user }) => {
         </Alert>
       )
         : null}
-      Profile: {user.username}
+      <Wrapper>
+        <Profile user={user} activeUser={activeUser} setErrMsg={setErrMsg} />
+      </Wrapper>
     </>
   )
 }
 
-export default Profile
+export default ProfilePage

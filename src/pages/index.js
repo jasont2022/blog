@@ -8,6 +8,7 @@ import s from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Alert } from 'react-bootstrap'
 import Navbar from '../components/Navbar'
+import Posts from '../components/Posts'
 
 export const getStaticProps = async () => {
   const { data } = await axios.get('/posts', {
@@ -17,9 +18,13 @@ export const getStaticProps = async () => {
   return { props: { posts: data } }
 }
 
-const HomeWrapper = s.div`
-  display: flex;
-  flex-direction: row;
+const Wrapper = s.div`
+  width: 100%;
+  box-sizing: border-box;
+  margin: 20px auto 0px auto;
+  max-width: 800px;
+  padding-left: 15px;
+  padding-right: 15px;
 `
 
 const Home = ({ posts }) => {
@@ -57,11 +62,9 @@ const Home = ({ posts }) => {
         </Alert>
       )
         : null}
-      <HomeWrapper>
-        <ul>
-          {posts.map(post => (<li key={post._id}>{post.title}</li>))}
-        </ul>
-      </HomeWrapper>
+      <Wrapper>
+        <Posts posts={posts} />
+      </Wrapper>
     </>
   )
 }

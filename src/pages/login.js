@@ -27,6 +27,7 @@ const SubmitButton = s.button`
   background: linear-gradient(-70deg,#ff7170,#ffe57f);
   color: white;
   opacity: ${props => (props.disable ? 0.5 : 1)};
+  
   :disabled:hover {
     cursor: not-allowed;
   }

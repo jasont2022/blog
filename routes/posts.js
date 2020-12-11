@@ -6,14 +6,13 @@ const Post = require('../models/post')
 const User = require('../models/user')
 const checkAuthenticated = require('../middlewares/isAuthenticated')
 
-router.get('/', (_req, res, next) => {
-  Post.find({}, (err, posts) => {
-    if (err) {
-      next(err)
-    } else {
-      res.send(posts)
-    }
-  })
+router.get('/', async (_req, res, next) => {
+  try {
+    const posts = await Post.find().populate('author', 'username')
+    res.send(posts)
+  } catch (err) {
+    next(err)
+  }
 })
 
 /*
@@ -28,18 +27,17 @@ router.get('/:username', async (req, res, next) => {
 })
 */
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   const { id } = req.params
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.send('not valid post id')
   }
-  Post.findById({ _id: id }, (err, post) => {
-    if (err) {
-      next(err)
-    } else {
-      res.send(post)
-    }
-  })
+  try {
+    const post = await Post.findById({ _id: id }).populate('author', 'username')
+    res.send(post)
+  } catch (err) {
+    next(err)
+  }
 })
 
 router.post('/', checkAuthenticated, async (req, res, next) => {

@@ -122,10 +122,8 @@ const SignUp = () => {
         <SubmitButton
           style={{ margin: '1rem 0' }}
           onClick={e => signUp(e)}
-          disabled={username === '' || email === '' || password === ''
-            || firstname === '' || lastname === ''}
-          disable={username === '' || email === '' || password === ''
-            || firstname === '' || lastname === ''}
+          disabled={!username || !email || !password || !firstname || !lastname}
+          disable={!username || !email || !password || !firstname || !lastname}
         >
           Sign Up
         </SubmitButton>
