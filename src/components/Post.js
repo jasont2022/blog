@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import s from 'styled-components'
 import CommentForm from './CommentForm'
@@ -26,6 +26,20 @@ const CommentWrapper = s.div`
     cursor: pointer;
   }
 `
+const Button = s.button`
+  hieght: 60px;
+  width: 100px;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  border: none;
+  padding: 5px 10px;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  background: linear-gradient(-70deg,#ff7170,#ffe57f);
+  float: right !important;
+`
 
 const Comment = ({ comment }) => {
   const { _id, text } = comment
@@ -45,6 +59,7 @@ const Post = ({ post, activeUser, setErrMsg }) => {
   const {
     _id, author: { username }, title, category, text, comments,
   } = post
+  const [isCommenting, setIsCommenting] = useState(false)
 
   return (
     <>
@@ -56,9 +71,20 @@ const Post = ({ post, activeUser, setErrMsg }) => {
         </Link>
         <p>{text}</p>
       </PostWrapper>
-      {/* { work on dynamic form clicking button appears/disappers form } */}
-      <h4>Comments</h4>
-      {activeUser ? <CommentForm id={_id} title={title} setErrMsg={setErrMsg} /> : null}
+      <h4>
+        Comments
+        {activeUser && !isCommenting ? (
+          <Button onClick={() => setIsCommenting(true)}>Comment</Button>
+        ) : null}
+      </h4>
+      {isCommenting ? (
+        <CommentForm
+          id={_id}
+          title={title}
+          setErrMsg={setErrMsg}
+          setIsCommenting={() => setIsCommenting(false)}
+        />
+      ) : null}
       {comments !== [] ? (
         comments.map(comment => <Comment key={comment._id} comment={comment} />)
       ) : null}

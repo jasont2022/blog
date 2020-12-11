@@ -8,9 +8,10 @@ import s from 'styled-components'
 import { Form } from 'react-bootstrap'
 
 const Button = s.button`
-  width: 100%;
+  hieght: 60px;
+  width: 100px;
+  padding: 5px 10px;
   border: none;
-  padding: 17px 32px;
   color: white;
   text-decoration: none;
   border-radius: 10px;
@@ -24,7 +25,9 @@ const Button = s.button`
   }
 `
 
-const CommentForm = ({ id, title, setErrMsg }) => {
+const CommentForm = ({
+  id, title, setErrMsg, setIsCommenting,
+}) => {
   const router = useRouter()
   const [text, setText] = useState('')
 
@@ -39,7 +42,7 @@ const CommentForm = ({ id, title, setErrMsg }) => {
   }
 
   return (
-    <div>
+    <div style={{ marginTop: '0.5rem' }}>
       <Form.Group controlId="formBasicText">
         <Form.Control
           as="textarea"
@@ -49,15 +52,22 @@ const CommentForm = ({ id, title, setErrMsg }) => {
         />
       </Form.Group>
       <Button
-        style={{ marginTop: '1rem' }}
+        style={{ marginTop: '0.5rem' }}
         onClick={() => {
           addComment()
           setText('')
+          setIsCommenting()
         }}
         disabled={!text}
         disable={!text}
       >
         Respond
+      </Button>
+      <Button
+        style={{ marginLeft: '1rem' }}
+        onClick={setIsCommenting}
+      >
+        Cancel
       </Button>
     </div>
   )
